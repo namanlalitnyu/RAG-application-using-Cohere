@@ -1,0 +1,12 @@
+PyPDF2
+pdfminer.six
+nltk
+langchain-community==0.0.34
+langchain==0.1.16
+chromadb
+tiktoken
+sentence-transformers
+arxiv
+Flask
+Flask-Cors
+huggingface-hub

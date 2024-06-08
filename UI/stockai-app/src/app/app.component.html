@@ -1,0 +1,138 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+<div class="body-content">
+  <!-- <span class="header ">
+    <span class="title display-4 stock-ai-title">{{ title }}</span>
+    <i class="fa-solid fa-money-bill-trend-up fa-bounce fa-2xl icon-position" style="color: #B197FC;"></i>
+  </span> -->
+  <div class="header">
+    <i class="fa-solid fa-money-bill-trend-up fa-bounce fa-2xl logo"></i>
+    <span class="title display-4 stock-ai-title">{{ title }}</span>
+  </div>
+  <div class="solution">
+    <br>
+    <br>
+    <h2>Welcome to the Stock Marketplace!!</h2>
+    <br>
+    <h4>Ask a question and get the most relevant research papers for your topic</h4>
+    <br>
+    <br>
+    <div class="toggle-container">
+      <span class="lead interaction">Interact With Us:</span>
+      <div class="toggle-switch">
+        <input type="radio" id="modeQA"  name="mode" (change)="changeMode('qa')" [checked]="selectedMode === 'Question Answering'">
+        <label for="modeQA">Ask Us</label>
+        <div class="toggle-slider"></div>
+      </div>
+      <div class="toggle-switch ">
+        <input type="radio" id="modeRaw" name="mode" (change)="changeMode('rawLLM')" [checked]="selectedMode === 'Raw LLM'">
+        <label for="modeRaw" >Ask LLM</label>
+        <div class="toggle-slider"></div>
+      </div>
+      <div class="toggle-switch">
+        <input type="radio" id="modeRec"  name="mode" (change)="changeMode('recommendation')" [checked]="selectedMode === 'Recommendation System'">
+        <label for="modeRec">Recommendation</label>
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <br>
+    <br>
+
+    <div class="prompt">
+      <textarea class="form-control prompt-input" placeholder="Enter your query...." [disabled]="isInTranstion"
+        [(ngModel)]="promptText" rows="1" (keydown.enter)="getAnswer()"></textarea>
+  
+      <span class="btn-span">
+        <button class="btn btn-secondary submit-btn" type="button" (click)="getAnswer()" [disabled]="isInTranstion">
+          <span *ngIf="!isInTranstion" class="button-content">
+            <i class="fa-solid fa-arrow-up-long"></i>
+          </span>
+          <span *ngIf="isInTranstion" class="button-content">
+            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+          </span>
+        </button>
+      </span> 
+    </div>
+
+    <div class="error content-box" *ngIf="hasError">
+      <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>{{errorMessage}}</span>
+      </div>
+    </div>
+
+    <div class="loader content-box" *ngIf="isInTranstion">
+      <div class="load-content" *ngIf="isFetchingDocs">
+        <span class="display-6 text-warning">Fetching Relevant Documents...</span>
+        <span class="spinner-border text-warning" role="status"></span>
+      </div>
+
+      <div class="load-content" *ngIf="isLoading">
+        <span class="display-6 text-warning">Generating Response...</span>
+        <span class="spinner-border text-warning" role="status"></span>
+      </div>
+    </div>
+
+    <div class="result content-box" *ngIf="hasResult">
+      <span class="result-title">
+        <span class="lead">Summary</span>
+      </span>
+      <p class="result-box" [innerHTML]="streamText"></p>
+      <div class="source-docs" *ngIf="isInQAMode">
+        <span class="source-docs-header">
+          <span class="lead">Most Relevant Documents</span>
+          <span class="badge bg-info text-dark">{{sourceDocs.length}}</span>
+        </span>
+        <ul class="document-list">
+          <li class="document-details" *ngFor="let doc of sourceDocs" [title]="doc.title">
+            <a href="{{doc?.link}}" target="_blank" class="badge bg-secondary">
+              {{doc?.link}}
+            </a>
+            <span class="doc-title">
+              {{ (doc.title.length > 120) ? (doc.title | slice:0:120) : (doc.title) }} ...</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- <div class="prompt">
+    <textarea class="form-control prompt-input" placeholder="Enter prompt" [disabled]="isInTranstion"
+      [(ngModel)]="promptText" rows="1" (keydown.enter)="getAnswer()"></textarea>
+
+    <span class="btn-span">
+      <button class="btn btn-secondary submit-btn" type="button" (click)="getAnswer()" [disabled]="isInTranstion">
+        <span *ngIf="!isInTranstion" class="button-content">
+          <i class="fa-solid fa-arrow-up-long"></i>
+        </span>
+        <span *ngIf="isInTranstion" class="button-content">
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        </span>
+      </button>
+    </span> 
+  </div> -->
+
+  <!-- <div class="mode-dropdown">
+    <span class="lead">Current Mode: </span>
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-secondary" id="llm-mode" ngbDropdownToggle>
+        {{selectedMode}}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="llm-mode" class="dropdown-menu dropdown-menu-dark">
+        <button ngbDropdownItem *ngFor="let mode of llmModes | keyvalue"
+          (click)="changeMode(mode.key)">{{mode.value}}</button>
+      </div>
+    </div>
+  </div> -->
+ <!-- Toggle Switches -->
+
+ 
+
+  
+
+</div>
+</body>
